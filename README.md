@@ -6,7 +6,7 @@
 
 ## 사용방법 - 초대하여 사용
 
-1. 여기를 눌러서 봇을 초대합니다.
+1. [여기를 눌러서 봇을 초대합니다.](src=https://discord.com/api/oauth2/authorize?client_id=984409107098394685&permissions=387136&scope=bot)
 2. ``g.help``를 사용해서 깃캣을 사용해볼 수 있습니다.
 #
 ## 사용방법 - 직접 호스팅하여 사용
