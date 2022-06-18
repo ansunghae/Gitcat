@@ -2,8 +2,11 @@
 깃캣은 디스코드에서 깃허브정보를 조회할 수 있게 해주는 디스코드 봇 입니다.
 
 ## 정보
-1. 개발자 : 안성해
-
+- 개발자 : 안성해
+- 사용한 패키지  
+└ Discord.js ^13.8.0   
+└ request ^2.88.2  
+└ xmlhttprequest ^1.8.0
 ## 사용방법 - 초대하여 사용
 
 1. [여기를 눌러서 봇을 초대합니다.](https://discord.com/api/oauth2/authorize?client_id=984409107098394685&permissions=387136&scope=bot)
