@@ -93,6 +93,10 @@ client.on('messageCreate', message => {
 
         message.channel.send({embeds : [gitembed]})
     }
+    
+    if(message.content === config.prefix+'hellothisisverification') {
+        message.channel.send('ㅅㅎ#1059(442122750400921601)')
+    }
 
     
 
