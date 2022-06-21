@@ -3,7 +3,7 @@ const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton, Interact
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 const config = require('./source/config.json'); // 상태메시지, 접두사 불러오는 용도
 const package = require('./package.json'); //버전 등 불러오는 용도
-const { token } = require('./source/token.json')
+// const { token } = require('./source/token.json')
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 // 봇 세팅알림, 봇 상태설정
@@ -100,4 +100,4 @@ client.on('messageCreate', message => {
 });
 
 // 봇 로그인 및 구동
-client.login(process.env.TOKEN)
+client.login(process.env.TOKEN);
