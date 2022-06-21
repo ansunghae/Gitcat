@@ -28,7 +28,6 @@ client.on('messageCreate', message => {
     //     .setColor('#ff9999')
     //     .setTitle('Github Commit Chart')
     //     .setImage("https://ghchart.rshah.org/ansunghae")
-
     //     message.channel.send({embeds : [gitembed]})
     // }
 
@@ -101,4 +100,4 @@ client.on('messageCreate', message => {
 });
 
 // 봇 로그인 및 구동
-client.login(token)
+client.login(process.env.TOKEN)
