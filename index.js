@@ -45,10 +45,13 @@ client.on('messageCreate', message => {
     if (message.content.toLowerCase().startsWith(config.prefix+"github")) {
         if (message.content===config.prefix+"github"){
             message.channel.send("유저이름을 입력해주세요.")
+            const errembed = new MessageEmbed()
+            .setTitle("⚠ Error")
+            .addField({name:"입력값이 없습니다!"});
+            message.channel.send({embeds : [errembed]})
         }else{
             const arg = message.content.split(' ').slice(1);
             const amount = arg.join(' ')
-
             var request = new XMLHttpRequest();
             request.open('GET', 'https://api.github.com/users/'+amount, 'true')
             request.send()
@@ -70,7 +73,7 @@ client.on('messageCreate', message => {
                 console.log(responseData)
                 const gitembed = new MessageEmbed()
                 .setURL('https://github.com/'+responseData.login)
-                .setColor("#999999")
+                .setColor("#f7ff9c")
                 .setTitle("Github Info")
                 .setThumbnail(responseData.avatar_url)
                 .addFields(
@@ -98,10 +101,6 @@ client.on('messageCreate', message => {
         message.channel.send('ㅅㅎ#1059(442122750400921601)')
     }
 
-    
-
-
 });
-
 // 봇 로그인 및 구동
 client.login(process.env.TOKEN);
