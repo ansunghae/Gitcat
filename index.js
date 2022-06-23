@@ -45,10 +45,6 @@ client.on('messageCreate', message => {
     if (message.content.toLowerCase().startsWith(config.prefix+"github")) {
         if (message.content===config.prefix+"github"){
             message.channel.send("유저이름을 입력해주세요.")
-            const errembed = new MessageEmbed()
-            .setTitle("⚠ Error")
-            .addField({name:"입력값이 없습니다!"});
-            message.channel.send({embeds : [errembed]})
         }else{
             const arg = message.content.split(' ').slice(1);
             const amount = arg.join(' ')
