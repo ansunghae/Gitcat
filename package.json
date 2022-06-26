@@ -1,6 +1,6 @@
 {
   "name": "alpha",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,11 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^13.8.0",
+    "fs": "^0.0.1-security",
     "request": "^2.88.2",
     "xmlhttprequest": "^1.8.0"
   },
   "engines": {
     "node": "16.15.0"
   }
-  
 }

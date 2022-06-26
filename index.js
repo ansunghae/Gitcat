@@ -9,7 +9,7 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 // 봇 세팅알림, 봇 상태설정
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`); // 로그인 알림
-    client.user.setActivity(config.activity + package.version, { type: 'PLAYING' }); //상태메시지 설정
+    client.user.setActivity(config.activity+ package.version, { type: 'PLAYING' }); //상태메시지 설정
     const gembed = new MessageEmbed()
         .setColor('#f7ff9c')
         .setTitle('📢 봇구동 안내')
@@ -48,6 +48,16 @@ client.on('messageCreate', message => {
         }else{
             const arg = message.content.split(' ').slice(1);
             const amount = arg.join(' ')
+            let checkstring=/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi
+            if(checkstring.test(amount)){
+                const embed = new MessageEmbed()
+                .setColor("#FF0000")
+                .setTitle("ERROR")
+                .setDescription("유저이름에는 특수문자가 들어갈 수 없습니다.")
+                message.channel.send({embeds:[embed]})
+                
+            }
+            else{
             var request = new XMLHttpRequest();
             request.open('GET', 'https://api.github.com/users/'+amount, 'true')
             request.send()
@@ -82,7 +92,7 @@ client.on('messageCreate', message => {
             };
             };
         }
-    }
+    }}
 
     if(message.content === config.prefix+'support') {
         const gitembed = new MessageEmbed()
