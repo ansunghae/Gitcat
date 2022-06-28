@@ -48,7 +48,7 @@ client.on('messageCreate', message => {
         }else{
             const arg = message.content.split(' ').slice(1);
             const amount = arg.join(' ')
-            let checkstring=/[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/gi
+            let checkstring=/[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"“]/gi
             if(checkstring.test(amount)){
                 const embed = new MessageEmbed()
                 .setColor("#FF0000")
