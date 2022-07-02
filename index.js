@@ -49,22 +49,14 @@ client.on('messageCreate', message => {
             const arg = message.content.split(' ').slice(1);
             const amount = arg.join(' ')
             let checkstring=/[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"“]/gi
-            if(checkstring.test(amount)){
+            let korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+            if(checkstring.test(amount) || korean.test(amount)){
                 const embed = new MessageEmbed()
                 .setColor("#FF0000")
-                .setTitle("ERROR")
-                .setDescription("유저이름에는 특수문자가 들어갈 수 없습니다.")
+                .setTitle("⛔ ERROR")
+                .setDescription("유저이름에는 특수문자 또는 한글이 들어갈 수 없습니다.")
                 message.channel.send({embeds:[embed]})
-            }
-            korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-            if(korean.test(amount)){
-              const embed = new MessageEmbed()
-              .setColor("#FF0000")
-              .setTitle("ERROR")
-              .setDescription("유저이름에는 한글이 들어갈 수 없습니다.")
-              message.channel.send({embeds:[embed]})
-            }
-            else{
+            }else{
             var request = new XMLHttpRequest();
             request.open('GET', 'https://api.github.com/users/'+amount, 'true')
             request.send()
