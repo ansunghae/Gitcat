@@ -49,15 +49,9 @@ client.on('messageCreate', message => {
             const arg = message.content.split(' ').slice(1);
             const amount = arg.join(' ')
             let checkstring=/[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"“]/gi
-            if(checkstring.test(amount)){
-                const embed = new MessageEmbed()
-                .setColor("#FF0000")
-                .setTitle("ERROR")
-                .setDescription("유저이름에는 특수문자가 들어갈 수 없습니다.")
-                message.channel.send({embeds:[embed]})
-            }
+          
             korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-            if(korean.test(amount)){
+            if(korean.test(amount)||checkstring.test(amount)){
               const embed = new MessageEmbed()
               .setColor("#FF0000")
               .setTitle("ERROR")
