@@ -36,7 +36,7 @@ client.on('messageCreate', message => {
         .setColor('#f7ff9c')
         .setTitle('📌GitCat Help')
         .addFields(
-            { name: 'Command', value: '**g.help** -- 이 명령어 모음을 출력합니다.\n**g.github {username}** -- 깃허브를 조회합니다.\n**g.support** -- Gitcat의 서포트서버로 이동합니다.'}
+            { name: 'Command', value: '**g.help** -- 이 명령어 모음을 출력합니다.\n**g.github {username}** -- 깃허브를 조회합니다.\n**g.support** -- Gitcat의 서포트서버로 이동합니다.\n**g.report** -- 건의사항을 개발자에게 전송합니다.'}
         )
 
         message.channel.send({embeds : [gitembed]})
@@ -104,6 +104,38 @@ client.on('messageCreate', message => {
     if(message.content === config.prefix+'hellothisisverification') {
         message.channel.send('ㅅㅎ#1059(442122750400921601)')
     }
+
+    if (message.content.toLowerCase().startsWith(config.prefix+"report")) {
+        if (message.content===config.prefix+"report"){
+            const embed = new MessageEmbed()
+            .setColor("#FF0000")
+            .setTitle("⛔ ERROR")
+            .setDescription("건의사항을 입력해주세요.")
+            message.channel.send({embeds:[embed]})
+        }else{
+            const arg = message.content.split(' ').slice(1);
+            const amount = arg.join(' ')
+            const sender = message.author.username
+            const senderid = message.author.id
+            const seembed = new MessageEmbed()
+            .setColor("#43A047")
+            .setTitle("성공")
+            .setDescription("건의사항을 전송했습니다.")
+            .addFields(
+                {name : sender+"님의 건의사항", value : amount}
+            )
+            message.channel.send({embeds:[seembed]})
+  
+            const resembed = new MessageEmbed()
+            .setColor("#43A047")
+            .setTitle(sender+"("+senderid+")"+"님의 건의사항")
+            .setDescription(amount)
+            client.channels.cache.get('992677516504465459').send({embeds : [resembed]})
+        }}
+  
+        if(message.content === config.prefix+'send') {
+          client.channels.cache.get('974953260072976427').send("1")
+      }
 
 });
 // 봇 로그인 및 구동
