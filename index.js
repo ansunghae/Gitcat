@@ -9,12 +9,12 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 // 봇 세팅알림, 봇 상태설정
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`); // 로그인 알림
-    client.user.setActivity(config.activity+ package.version, { type: 'PLAYING' }); //상태메시지 설정
+    client.user.setActivity(config.activity, { type: 'PLAYING' }); //상태메시지 설정
     const gembed = new MessageEmbed()
         .setColor('#f7ff9c')
-        .setTitle('📢 봇구동 안내')
+        .setTitle('📢 테스트모드')
         .addFields(
-            { name: '봇이 구동되었습니다.',value:'모든명령어가 정상적으로 작동합니다.'}
+            { name: '테스트모드가 시작되었습니다.',value:'.'}
         )
     client.channels.cache.get('974953260072976427').send({embeds : [gembed]})
 
@@ -56,6 +56,14 @@ client.on('messageCreate', message => {
                 .setDescription("유저이름에는 특수문자가 들어갈 수 없습니다.")
                 message.channel.send({embeds:[embed]})
                 
+            }
+            korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+            if(korean.test(amount)){
+              const embed = new MessageEmbed()
+              .setColor("#FF0000")
+              .setTitle("ERROR")
+              .setDescription("유저이름에는 한글이 들어갈 수 없습니다.")
+              message.channel.send({embeds:[embed]})
             }
             else{
             var request = new XMLHttpRequest();
