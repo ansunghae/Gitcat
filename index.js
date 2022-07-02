@@ -130,6 +130,7 @@ client.on('messageCreate', message => {
             .setColor("#43A047")
             .setTitle(sender+"("+senderid+")"+"님의 건의사항")
             .setDescription(amount)
+            .setTimestamp()
             client.channels.cache.get('992677516504465459').send({embeds : [resembed]})
         }}
   
