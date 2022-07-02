@@ -48,9 +48,8 @@ client.on('messageCreate', message => {
         }else{
             const arg = message.content.split(' ').slice(1);
             const amount = arg.join(' ')
-            let checkstring=/[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"“]/gi
-            let korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-            if(checkstring.test(amount) || korean.test(amount)){
+            let checkstring=/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i
+            if(!checkstring.test(amount)){
                 const embed = new MessageEmbed()
                 .setColor("#FF0000")
                 .setTitle("⛔ ERROR")
