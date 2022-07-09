@@ -1,5 +1,5 @@
 // 모듈, 설정파일 불러오기
-const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton, Interaction } = require('discord.js');
+const { Client, Intents, MessageEmbed } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 const config = require('./source/config.json'); // 상태메시지, 접두사 불러오는 용도
 const package = require('./package.json'); //버전 등 불러오는 용도
@@ -14,7 +14,7 @@ client.on('ready', () => {
         .setColor('#f7ff9c')
         .setTitle('📢 봇구동 안내')
         .addFields(
-            { name: '봇이 구동되었습니다.',value:'모든명령어가 정상적으로 작동합니다.'}
+            { name: '봇이 구동되었습니다.', value:'모든명령어가 정상적으로 작동합니다.'}
         )
     client.channels.cache.get('974953260072976427').send({embeds : [gembed]})
 
@@ -87,6 +87,14 @@ client.on('messageCreate', message => {
                     { name : "Created Account", value:arr[0] , inline: true },
                 )
                 message.channel.send({embeds : [gitembed]})
+            };
+
+            if(request.readyState == 4 && request.status == 404){
+                const embed1 = new MessageEmbed()
+                .setColor("#FF0000")
+                .setTitle("⛔ ERROR")
+                .setDescription("유저를 찾을 수 없습니다.")
+                message.channel.send({embeds : [embed1]})
             };
             };
         }
