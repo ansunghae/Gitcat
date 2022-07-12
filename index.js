@@ -52,8 +52,8 @@ client.on('messageCreate', message => {
             if(!checkstring.test(amount)){
                 const embed = new MessageEmbed()
                 .setColor("#FF0000")
-                .setTitle("⛔ ERROR")
-                .setDescription("유저이름에는 특수문자 또는 한글이 들어갈 수 없습니다.")
+                .setTitle("ERROR")
+                .setDescription("유저이름에는 특수문자 또는 한글이 가 들어갈 수 없습니다.")
                 message.channel.send({embeds:[embed]})
             }else{
             var request = new XMLHttpRequest();
@@ -74,7 +74,7 @@ client.on('messageCreate', message => {
                 var crtime = responseData.created_at
                 var arr = crtime.split('T')
                 if(responseData['name']==='-') responseData['name'] = responseData.login
-                console.log(responseData)
+                console.log(responseData.login+"님을 조회했습니다.")
                 const gitembed = new MessageEmbed()
                 .setURL('https://github.com/'+responseData.login)
                 .setColor("#f7ff9c")
@@ -88,14 +88,14 @@ client.on('messageCreate', message => {
                 )
                 message.channel.send({embeds : [gitembed]})
             };
-
-            if(request.readyState == 4 && request.status == 404){
-                const embed1 = new MessageEmbed()
-                .setColor("#FF0000")
-                .setTitle("⛔ ERROR")
-                .setDescription("유저를 찾을 수 없습니다.")
-                message.channel.send({embeds : [embed1]})
-            };
+                  if(request.readyState == 4 && request.status == 404){
+                  console.log("찾을 수 없는 유저를 조회했습니다.")
+                  const embed1 = new MessageEmbed()
+                  .setColor("#FF0000")
+                  .setTitle("⛔ ERROR")
+                  .setDescription("유저를 찾을 수 없습니다.")
+                  message.channel.send({embeds : [embed1]})
+              };
             };
         }
     }}
