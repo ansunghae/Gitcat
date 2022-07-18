@@ -2,6 +2,8 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const { prefix }= require("./source/config.json");
 // const { token } = require('./source/token.json')
+const package = ('./package.json')
+const config = ('./source/config.json')
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const client = new Discord.Client({intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MEMBERS, Discord.Intents.FLAGS.GUILD_BANS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.DIRECT_MESSAGES]});
 client.commands = new Discord.Collection();
@@ -17,7 +19,7 @@ for (const file of commandFiles) {
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity('Test', { type: 'PLAYING' });
+  client.user.setActivity(config.activity+package.version,{ type: 'PLAYING' });
   const gembed = new Discord.MessageEmbed()
   .setColor('#f7ff9c')
   .setTitle('📢 봇구동 안내')
