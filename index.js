@@ -1,151 +1,44 @@
-// 모듈, 설정파일 불러오기
-const { Client, Intents, MessageEmbed } = require('discord.js');
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-const config = require('./source/config.json'); // 상태메시지, 접두사 불러오는 용도
-const package = require('./package.json'); //버전 등 불러오는 용도
-// const { token } = require('./source/token.json')
+const fs = require("fs");
+const Discord = require("discord.js");
+const { prefix }= require("./source/config.json");
+const { token } = require('./source/token.json')
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const client = new Discord.Client({intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MEMBERS, Discord.Intents.FLAGS.GUILD_BANS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.DIRECT_MESSAGES]});
+client.commands = new Discord.Collection();
 
-// 봇 세팅알림, 봇 상태설정
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`); // 로그인 알림
-    client.user.setActivity(config.activity+ package.version, { type: 'PLAYING' }); //상태메시지 설정
-    const gembed = new MessageEmbed()
-        .setColor('#f7ff9c')
-        .setTitle('📢 봇구동 안내')
-        .addFields(
-            { name: '봇이 구동되었습니다.', value:'모든명령어가 정상적으로 작동합니다.'}
-        )
-    client.channels.cache.get('974953260072976427').send({embeds : [gembed]})
+const commandFiles = fs
+  .readdirSync("./commands")
+  .filter((file) => file.endsWith(".js"));
 
-  });
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  client.commands.set(command.name, command);
+}
 
-// 봇 명령어
-client.on('messageCreate', message => {
-
-    // if(message.content === config.prefix+'git') {
-    //     const gitembed = new MessageEmbed()
-    //     .setColor('#ff9999')
-    //     .setTitle('Github Commit Chart')
-    //     .setImage("https://ghchart.rshah.org/ansunghae")
-    //     message.channel.send({embeds : [gitembed]})
-    // }
-
-    if(message.content === config.prefix+'help') {
-        const gitembed = new MessageEmbed()
-        .setColor('#f7ff9c')
-        .setTitle('📌GitCat Help')
-        .addFields(
-            { name: 'Command', value: '**g.help** -- 이 명령어 모음을 출력합니다.\n**g.github {username}** -- 깃허브를 조회합니다.\n**g.support** -- Gitcat의 서포트서버로 이동합니다.\n**g.report** -- 건의사항을 개발자에게 전송합니다.'}
-        )
-
-        message.channel.send({embeds : [gitembed]})
-    }
-
-    if (message.content.toLowerCase().startsWith(config.prefix+"github")) {
-        if (message.content===config.prefix+"github"){
-            message.channel.send("유저이름을 입력해주세요.")
-        }else{
-            const arg = message.content.split(' ').slice(1);
-            const amount = arg.join(' ')
-            let checkstring=/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i
-            if(!checkstring.test(amount)){
-                const embed = new MessageEmbed()
-                .setColor("#FF0000")
-                .setTitle("ERROR")
-                .setDescription("유저이름에는 특수문자 또는 한글이 가 들어갈 수 없습니다.")
-                message.channel.send({embeds:[embed]})
-            }else{
-            var request = new XMLHttpRequest();
-            request.open('GET', 'https://api.github.com/users/'+amount, 'true')
-            request.send()
-            request.onreadystatechange = function(event){
-            if(request.readyState == 4 && request.status == 200){
-                const responseData = JSON.parse(request.responseText)
-                
-                Object.keys(responseData).forEach(key => {
-                    if(responseData[key]===null || responseData[key]===''){
-                        responseData[key] = '-';
-                    }
-                    if(typeof(responseData[key])!=String){
-                        responseData[key].toString
-                    }
-                });
-                var crtime = responseData.created_at
-                var arr = crtime.split('T')
-                if(responseData['name']==='-') responseData['name'] = responseData.login
-                console.log(responseData.login+"님을 조회했습니다.")
-                const gitembed = new MessageEmbed()
-                .setURL('https://github.com/'+responseData.login)
-                .setColor("#f7ff9c")
-                .setTitle("Github Info")
-                .setThumbnail(responseData.avatar_url)
-                .addFields(
-                    { name: 'Username', value: responseData.name, inline: true},
-                    { name: 'Bio', value: responseData.bio, inline: true},
-                    { name: 'Company', value:responseData.company, inline: true },
-                    { name : "Created Account", value:arr[0] , inline: true },
-                )
-                message.channel.send({embeds : [gitembed]})
-            };
-                  if(request.readyState == 4 && request.status == 404){
-                  console.log("찾을 수 없는 유저를 조회했습니다.")
-                  const embed1 = new MessageEmbed()
-                  .setColor("#FF0000")
-                  .setTitle("⛔ ERROR")
-                  .setDescription("유저를 찾을 수 없습니다.")
-                  message.channel.send({embeds : [embed1]})
-              };
-            };
-        }
-    }}
-
-    if(message.content === config.prefix+'support') {
-        const gitembed = new MessageEmbed()
-        .setColor('#f7ff9c')
-        .setURL('https://discord.gg/9wmZYw2H8Q')
-        .setTitle('📌GitCat Support Server')
-
-        message.channel.send({embeds : [gitembed]})
-    }
-    
-    if(message.content === config.prefix+'hellothisisverification') {
-        message.channel.send('ㅅㅎ#1059(442122750400921601)')
-    }
-
-    if (message.content.toLowerCase().startsWith(config.prefix+"report")) {
-        if (message.content===config.prefix+"report"){
-            const embed = new MessageEmbed()
-            .setColor("#FF0000")
-            .setTitle("⛔ ERROR")
-            .setDescription("건의사항을 입력해주세요.")
-            message.channel.send({embeds:[embed]})
-        }else{
-            const arg = message.content.split(' ').slice(1);
-            const amount = arg.join(' ')
-            const sender = message.author.username
-            const senderid = message.author.id
-            const seembed = new MessageEmbed()
-            .setColor("#43A047")
-            .setTitle("성공")
-            .setDescription("건의사항을 전송했습니다.")
-            .addFields(
-                {name : sender+"님의 건의사항", value : amount}
-            )
-            message.channel.send({embeds:[seembed]})
-  
-            const resembed = new MessageEmbed()
-            .setColor("#43A047")
-            .setTitle(sender+"("+senderid+")"+"님의 건의사항")
-            .setDescription(amount)
-            .setTimestamp()
-            client.channels.cache.get('992677516504465459').send({embeds : [resembed]})
-        }}
-  
-        if(message.content === config.prefix+'send') {
-          client.channels.cache.get('974953260072976427').send("1")
-      }
-
+client.on("ready", () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+  client.user.setActivity('Test', { type: 'PLAYING' });
+  const gembed = new Discord.MessageEmbed()
+  .setColor('#f7ff9c')
+  .setTitle('📢 봇구동 안내')
+  .addFields(
+      { name: '봇이 구동되었습니다.', value:'모든명령어가 정상적으로 작동합니다.'}
+  )
+  client.channels.cache.get('974953260072976427').send({embeds : [gembed]})
 });
-// 봇 로그인 및 구동
+
+client.on('messageCreate', message => {
+  if (!message.content.startsWith(prefix) || message.author.bot) return;
+  const args = message.content.slice(prefix.length).trim().split(/ +/);
+  const command = args.shift();
+
+  if (!client.commands.has(command)) return;
+
+  try {
+    client.commands.get(command).execute(message, args);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 client.login(process.env.TOKEN);
