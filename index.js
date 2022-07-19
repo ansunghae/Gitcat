@@ -23,6 +23,7 @@ client.on("ready", () => {
   const gembed = new Discord.MessageEmbed()
   .setColor('#f7ff9c')
   .setTitle('📢 봇구동 안내')
+  .setTimestamp()
   .addFields(
       { name: '봇이 구동되었습니다.', value:'모든명령어가 정상적으로 작동합니다.'}
   )
