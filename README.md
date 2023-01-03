@@ -27,4 +27,4 @@ GitCat은 ``GNU GENERAL PUBLIC LICENSE``를 사용하고 있습니다.
 ## 기타
 
 E-Mail : ahshss903@naver.com  
-Discord : ㅅㅎ#1059
+Discord : 안유일#1059
